@@ -28,6 +28,10 @@ service Key_Value_Database_Service{
 	
 	Person get(1:i32 key),
 
-	void put(1:i32 key , 2:Person value)
+	void put(1:i32 key , 2:Person value),
+
+	list<Person> list_values(),
+
+	void delete_value(1:i32 key)
 
 }
