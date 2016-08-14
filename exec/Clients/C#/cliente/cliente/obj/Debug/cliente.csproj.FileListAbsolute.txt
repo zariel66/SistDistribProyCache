@@ -1,0 +1,7 @@
+c:\users\xtreme\documents\visual studio 2012\Projects\cliente\cliente\bin\Debug\cliente.exe.config
+c:\users\xtreme\documents\visual studio 2012\Projects\cliente\cliente\obj\Debug\cliente.csprojResolveAssemblyReference.cache
+C:\Users\Xtreme\Documents\Visual Studio 2012\Projects\cliente\cliente\bin\Debug\cliente.exe
+C:\Users\Xtreme\Documents\Visual Studio 2012\Projects\cliente\cliente\bin\Debug\cliente.pdb
+C:\Users\Xtreme\Documents\Visual Studio 2012\Projects\cliente\cliente\bin\Debug\Thrift.dll
+C:\Users\Xtreme\Documents\Visual Studio 2012\Projects\cliente\cliente\obj\Debug\cliente.exe
+C:\Users\Xtreme\Documents\Visual Studio 2012\Projects\cliente\cliente\obj\Debug\cliente.pdb
