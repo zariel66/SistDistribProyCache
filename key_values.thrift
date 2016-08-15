@@ -6,6 +6,7 @@ namespace java key_value_database
 namespace py key_value_database
 namespace go key_value_database
 namespace js key_value_database
+namespace cpp key_value_database
 
 enum City{
 
