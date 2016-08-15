@@ -1,0 +1,9 @@
+/media/adrian/01D1F4CCC1490970/Users/Xtreme/Documents/GitHub/SistDistribProyCache/exec/Clients/C#/cliente/cliente/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/media/adrian/01D1F4CCC1490970/Users/Xtreme/Documents/GitHub/SistDistribProyCache/exec/Clients/C#/cliente/cliente/bin/Debug/cliente.exe.config
+/media/adrian/01D1F4CCC1490970/Users/Xtreme/Documents/GitHub/SistDistribProyCache/exec/Clients/C#/cliente/cliente/bin/Debug/cliente.exe.mdb
+/media/adrian/01D1F4CCC1490970/Users/Xtreme/Documents/GitHub/SistDistribProyCache/exec/Clients/C#/cliente/cliente/bin/Debug/cliente.pdb
+/media/adrian/01D1F4CCC1490970/Users/Xtreme/Documents/GitHub/SistDistribProyCache/exec/Clients/C#/cliente/cliente/bin/Debug/cliente.exe
+/media/adrian/01D1F4CCC1490970/Users/Xtreme/Documents/GitHub/SistDistribProyCache/exec/Clients/C#/cliente/cliente/obj/Debug/cliente.exe
+/media/adrian/01D1F4CCC1490970/Users/Xtreme/Documents/GitHub/SistDistribProyCache/exec/Clients/C#/cliente/cliente/obj/Debug/cliente.exe.mdb
+/media/adrian/01D1F4CCC1490970/Users/Xtreme/Documents/GitHub/SistDistribProyCache/exec/Clients/C#/cliente/cliente/obj/Debug/cliente.pdb
+/media/adrian/01D1F4CCC1490970/Users/Xtreme/Documents/GitHub/SistDistribProyCache/exec/Clients/C#/cliente/cliente/bin/Debug/Thrift.dll

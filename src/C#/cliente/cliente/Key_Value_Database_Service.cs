@@ -27,6 +27,16 @@ public partial class Key_Value_Database_Service {
     IAsyncResult Begin_put(AsyncCallback callback, object state, int key, Person @value);
     void End_put(IAsyncResult asyncResult);
     #endif
+    List<Person> list_values();
+    #if SILVERLIGHT
+    IAsyncResult Begin_list_values(AsyncCallback callback, object state);
+    List<Person> End_list_values(IAsyncResult asyncResult);
+    #endif
+    void delete_value(int key);
+    #if SILVERLIGHT
+    IAsyncResult Begin_delete_value(AsyncCallback callback, object state, int key);
+    void End_delete_value(IAsyncResult asyncResult);
+    #endif
   }
 
   public class Client : IDisposable, Iface {
@@ -207,6 +217,126 @@ public partial class Key_Value_Database_Service {
       return;
     }
 
+    
+    #if SILVERLIGHT
+    public IAsyncResult Begin_list_values(AsyncCallback callback, object state)
+    {
+      return send_list_values(callback, state);
+    }
+
+    public List<Person> End_list_values(IAsyncResult asyncResult)
+    {
+      oprot_.Transport.EndFlush(asyncResult);
+      return recv_list_values();
+    }
+
+    #endif
+
+    public List<Person> list_values()
+    {
+      #if !SILVERLIGHT
+      send_list_values();
+      return recv_list_values();
+
+      #else
+      var asyncResult = Begin_list_values(null, null);
+      return End_list_values(asyncResult);
+
+      #endif
+    }
+    #if SILVERLIGHT
+    public IAsyncResult send_list_values(AsyncCallback callback, object state)
+    #else
+    public void send_list_values()
+    #endif
+    {
+      oprot_.WriteMessageBegin(new TMessage("list_values", TMessageType.Call, seqid_));
+      list_values_args args = new list_values_args();
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      #if SILVERLIGHT
+      return oprot_.Transport.BeginFlush(callback, state);
+      #else
+      oprot_.Transport.Flush();
+      #endif
+    }
+
+    public List<Person> recv_list_values()
+    {
+      TMessage msg = iprot_.ReadMessageBegin();
+      if (msg.Type == TMessageType.Exception) {
+        TApplicationException x = TApplicationException.Read(iprot_);
+        iprot_.ReadMessageEnd();
+        throw x;
+      }
+      list_values_result result = new list_values_result();
+      result.Read(iprot_);
+      iprot_.ReadMessageEnd();
+      if (result.__isset.success) {
+        return result.Success;
+      }
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "list_values failed: unknown result");
+    }
+
+    
+    #if SILVERLIGHT
+    public IAsyncResult Begin_delete_value(AsyncCallback callback, object state, int key)
+    {
+      return send_delete_value(callback, state, key);
+    }
+
+    public void End_delete_value(IAsyncResult asyncResult)
+    {
+      oprot_.Transport.EndFlush(asyncResult);
+      recv_delete_value();
+    }
+
+    #endif
+
+    public void delete_value(int key)
+    {
+      #if !SILVERLIGHT
+      send_delete_value(key);
+      recv_delete_value();
+
+      #else
+      var asyncResult = Begin_delete_value(null, null, key);
+      End_delete_value(asyncResult);
+
+      #endif
+    }
+    #if SILVERLIGHT
+    public IAsyncResult send_delete_value(AsyncCallback callback, object state, int key)
+    #else
+    public void send_delete_value(int key)
+    #endif
+    {
+      oprot_.WriteMessageBegin(new TMessage("delete_value", TMessageType.Call, seqid_));
+      delete_value_args args = new delete_value_args();
+      args.Key = key;
+      args.Write(oprot_);
+      oprot_.WriteMessageEnd();
+      #if SILVERLIGHT
+      return oprot_.Transport.BeginFlush(callback, state);
+      #else
+      oprot_.Transport.Flush();
+      #endif
+    }
+
+    public void recv_delete_value()
+    {
+      TMessage msg = iprot_.ReadMessageBegin();
+      if (msg.Type == TMessageType.Exception) {
+        TApplicationException x = TApplicationException.Read(iprot_);
+        iprot_.ReadMessageEnd();
+        throw x;
+      }
+      delete_value_result result = new delete_value_result();
+      result.Read(iprot_);
+      iprot_.ReadMessageEnd();
+      return;
+    }
+
   }
   public class Processor : TProcessor {
     public Processor(Iface iface)
@@ -214,6 +344,8 @@ public partial class Key_Value_Database_Service {
       iface_ = iface;
       processMap_["get"] = get_Process;
       processMap_["put"] = put_Process;
+      processMap_["list_values"] = list_values_Process;
+      processMap_["delete_value"] = delete_value_Process;
     }
 
     protected delegate void ProcessFunction(int seqid, TProtocol iprot, TProtocol oprot);
@@ -267,6 +399,32 @@ public partial class Key_Value_Database_Service {
       put_result result = new put_result();
       iface_.put(args.Key, args.Value);
       oprot.WriteMessageBegin(new TMessage("put", TMessageType.Reply, seqid)); 
+      result.Write(oprot);
+      oprot.WriteMessageEnd();
+      oprot.Transport.Flush();
+    }
+
+    public void list_values_Process(int seqid, TProtocol iprot, TProtocol oprot)
+    {
+      list_values_args args = new list_values_args();
+      args.Read(iprot);
+      iprot.ReadMessageEnd();
+      list_values_result result = new list_values_result();
+      result.Success = iface_.list_values();
+      oprot.WriteMessageBegin(new TMessage("list_values", TMessageType.Reply, seqid)); 
+      result.Write(oprot);
+      oprot.WriteMessageEnd();
+      oprot.Transport.Flush();
+    }
+
+    public void delete_value_Process(int seqid, TProtocol iprot, TProtocol oprot)
+    {
+      delete_value_args args = new delete_value_args();
+      args.Read(iprot);
+      iprot.ReadMessageEnd();
+      delete_value_result result = new delete_value_result();
+      iface_.delete_value(args.Key);
+      oprot.WriteMessageBegin(new TMessage("delete_value", TMessageType.Reply, seqid)); 
       result.Write(oprot);
       oprot.WriteMessageEnd();
       oprot.Transport.Flush();
@@ -696,6 +854,368 @@ public partial class Key_Value_Database_Service {
 
     public override string ToString() {
       StringBuilder __sb = new StringBuilder("put_result(");
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class list_values_args : TBase
+  {
+
+    public list_values_args() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("list_values_args");
+        oprot.WriteStructBegin(struc);
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("list_values_args(");
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class list_values_result : TBase
+  {
+    private List<Person> _success;
+
+    public List<Person> Success
+    {
+      get
+      {
+        return _success;
+      }
+      set
+      {
+        __isset.success = true;
+        this._success = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool success;
+    }
+
+    public list_values_result() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 0:
+              if (field.Type == TType.List) {
+                {
+                  Success = new List<Person>();
+                  TList _list0 = iprot.ReadListBegin();
+                  for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
+                  {
+                    Person _elem2;
+                    _elem2 = new Person();
+                    _elem2.Read(iprot);
+                    Success.Add(_elem2);
+                  }
+                  iprot.ReadListEnd();
+                }
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("list_values_result");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+
+        if (this.__isset.success) {
+          if (Success != null) {
+            field.Name = "Success";
+            field.Type = TType.List;
+            field.ID = 0;
+            oprot.WriteFieldBegin(field);
+            {
+              oprot.WriteListBegin(new TList(TType.Struct, Success.Count));
+              foreach (Person _iter3 in Success)
+              {
+                _iter3.Write(oprot);
+              }
+              oprot.WriteListEnd();
+            }
+            oprot.WriteFieldEnd();
+          }
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("list_values_result(");
+      bool __first = true;
+      if (Success != null && __isset.success) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("Success: ");
+        __sb.Append(Success);
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class delete_value_args : TBase
+  {
+    private int _key;
+
+    public int Key
+    {
+      get
+      {
+        return _key;
+      }
+      set
+      {
+        __isset.key = true;
+        this._key = value;
+      }
+    }
+
+
+    public Isset __isset;
+    #if !SILVERLIGHT
+    [Serializable]
+    #endif
+    public struct Isset {
+      public bool key;
+    }
+
+    public delete_value_args() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            case 1:
+              if (field.Type == TType.I32) {
+                Key = iprot.ReadI32();
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("delete_value_args");
+        oprot.WriteStructBegin(struc);
+        TField field = new TField();
+        if (__isset.key) {
+          field.Name = "key";
+          field.Type = TType.I32;
+          field.ID = 1;
+          oprot.WriteFieldBegin(field);
+          oprot.WriteI32(Key);
+          oprot.WriteFieldEnd();
+        }
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("delete_value_args(");
+      bool __first = true;
+      if (__isset.key) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("Key: ");
+        __sb.Append(Key);
+      }
+      __sb.Append(")");
+      return __sb.ToString();
+    }
+
+  }
+
+
+  #if !SILVERLIGHT
+  [Serializable]
+  #endif
+  public partial class delete_value_result : TBase
+  {
+
+    public delete_value_result() {
+    }
+
+    public void Read (TProtocol iprot)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        iprot.ReadStructBegin();
+        while (true)
+        {
+          field = iprot.ReadFieldBegin();
+          if (field.Type == TType.Stop) { 
+            break;
+          }
+          switch (field.ID)
+          {
+            default: 
+              TProtocolUtil.Skip(iprot, field.Type);
+              break;
+          }
+          iprot.ReadFieldEnd();
+        }
+        iprot.ReadStructEnd();
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public void Write(TProtocol oprot) {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        TStruct struc = new TStruct("delete_value_result");
+        oprot.WriteStructBegin(struc);
+
+        oprot.WriteFieldStop();
+        oprot.WriteStructEnd();
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override string ToString() {
+      StringBuilder __sb = new StringBuilder("delete_value_result(");
       __sb.Append(")");
       return __sb.ToString();
     }

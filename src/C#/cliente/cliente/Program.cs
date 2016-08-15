@@ -45,8 +45,12 @@ namespace cliente
 
                     if (command.Equals("get") && !input_split[1].Equals("")) {
                         key = Int32.Parse(input_split[1]);
-
-                        Console.WriteLine(client.get(key));
+                        try
+                        {
+                            Console.WriteLine(client.get(key));
+                        }catch(Exception ex){
+                            Console.WriteLine("no se pudo obtener la informacion");
+                        }
                     } else if (command.Equals("put") && !input_split[1].Equals("")) {
                         key = Int32.Parse(input_split[1]);
                         String name, apellido;
@@ -102,13 +106,23 @@ namespace cliente
                         p.City = ciudad;
                         client.put(key, p);
                     }else if (command.Equals("list")) {
-                        //client.list().stream().forEach((p) -> {
-                            Console.WriteLine("no implementado");
-                        //});
+                        foreach (Person per in client.list_values())
+                        {
+                            Console.WriteLine(per);
+                        }
+                            
+                        
 
                     } else if (command.Equals("delete") && !input_split[1].Equals("")) {
                         key = Int32.Parse(input_split[1]);
-                        //client.delete(key);
+                        try
+                        {
+                            client.delete_value(key);
+                        }
+                        catch (TException ex)
+                        {
+                            Console.WriteLine("No se pudo eliminar el dato");
+                        }
                     } else if (command.Equals("close")) {
                         exitFlag = true;
                     } else {
@@ -116,7 +130,7 @@ namespace cliente
                     }
                     
                   }
-                System.Threading.Thread.Sleep(5000);
+                //System.Threading.Thread.Sleep(5000);
                 transport.Close();
                 
             }
