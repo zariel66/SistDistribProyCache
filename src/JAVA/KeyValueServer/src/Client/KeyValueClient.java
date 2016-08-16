@@ -76,7 +76,7 @@ public class KeyValueClient {
                     System.out.println(client.get(key));
                 } else if (command.equals("put") && !input_split[1].equals("")) {
                     key = Integer.valueOf(input_split[1]);
-                    Person p = newValue();
+                    Person p = newValue(input_scanner);
                     client.put(key, p);
                     System.out.println("");
                 } else if (command.equals("list")) {
@@ -102,11 +102,11 @@ public class KeyValueClient {
         }
     }
 
-    public static Person newValue() {
+    public static Person newValue(Scanner input_scanner) {
         String name, apellido;
         Integer edad = null, seleccion = null;
         City ciudad = null;
-        Scanner input_scanner = new Scanner(System.in);
+        //Scanner input_scanner = new Scanner(System.in);
         System.out.print("Ingrese el nombre: ");
         name = input_scanner.nextLine();
         System.out.print("Ingrese el apellido: ");

@@ -1,7 +1,7 @@
 GEN_SRC := Key_Value_Database_Service.cpp key_values_constants.cpp key_values_types.cpp
 GEN_OBJ := $(patsubst %.cpp,%.o, $(GEN_SRC))
 
-THRIFT_DIR := /usr/local/include/thrift
+THRIFT_DIR := /usr/local/ApacheThrift/thrift-0.9.3/include/thrift
 BOOST_DIR := /usr/local/include
 
 INC := -I$(THRIFT_DIR) -I$(BOOST_DIR)

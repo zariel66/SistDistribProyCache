@@ -49,7 +49,7 @@ public class KeyValueHandler implements Key_Value_Database_Service.Iface{
     */
     @Override
     public Person get(int key) throws TException {
-        sleep(1);
+        //sleep(1);
         Person p = tablePerson.get(key);
         if(p!=null){
             System.out.println("Response GET Petition... "+key+" "+p.name + " "+p.lastName);
@@ -60,7 +60,7 @@ public class KeyValueHandler implements Key_Value_Database_Service.Iface{
 
     @Override
     public void put(int key, Person value) throws TException {
-        sleep(1);
+        //sleep(1);
         tablePerson.put(key, value);
         System.out.println("Response PUT Petition... "+key+value.name + " "+value.lastName);
         
@@ -68,7 +68,7 @@ public class KeyValueHandler implements Key_Value_Database_Service.Iface{
 
     @Override
     public List<Person> list_values() throws TException {
-        sleep(1);
+        //sleep(1);
         System.out.println("Response LIST Petition... "+tablePerson.values());
         List<Person> list = new ArrayList<>(tablePerson.values());
         return list;
@@ -76,7 +76,7 @@ public class KeyValueHandler implements Key_Value_Database_Service.Iface{
 
     @Override
     public void delete_value(int key) throws TException {
-        sleep(1);
+        //sleep(1);
         Person p = tablePerson.get(key);
         if(p!=null){
             tablePerson.remove(key);
