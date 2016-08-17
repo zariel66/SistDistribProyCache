@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
     printf ("Puerto no valido\n");
     exit(EXIT_FAILURE);
   }
-  boost::shared_ptr<TSocket> socket(new TSocket("localhost", 9090));
+  boost::shared_ptr<TSocket> socket(new TSocket(host, pport));
   boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
   boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 
